@@ -63,7 +63,7 @@ async function insertOrUpdateUser(db, username, password) {
 
 async function getUserByUsername(db, username) {
   try {
-    var err, row = await db.all('SELECT * FROM users WHERE username = ?', [username]);	
+    var err, row = await db.get('SELECT * FROM users WHERE username = ?', [username]);	
     return row;
   } catch (err) {
     console.error(err.message);

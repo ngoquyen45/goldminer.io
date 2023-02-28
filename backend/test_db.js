@@ -1,10 +1,13 @@
 const dbLib = require('./db');
+const poolLib = require('./pool_db');
 
 async function test() {
-    const db = await dbLib.openConnection();
+    const db = await poolLib.getConnection();
     // Create the users table
     await dbLib.createUserTable(db);
 
+    // Create the token table
+    await dbLib.createTokenTable(db);
     // Insert a user
     await dbLib.insertOrUpdateUser(db, 'testuser', 'password');
     await dbLib.insertOrUpdateUser(db, 'testuser1', 'password');
@@ -16,8 +19,6 @@ async function test() {
     const user = await dbLib.getUserByUsername(db, 'testuser');
     console.log(user);
 
-    // Create the token table
-    await dbLib.createTokenTable(db);
 
     // Generate a token for the user
     const token = await dbLib.createOrUpdateToken(db, 'testuser');
@@ -30,7 +31,7 @@ async function test() {
         console.log("token = null")
     }
 
-    await dbLib.closeConnection(db);
+    await poolLib.releaseConnection();
 }
 
 test();

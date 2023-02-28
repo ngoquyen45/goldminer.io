@@ -1,4 +1,5 @@
 const bcrypt = require('bcrypt');
+const dbLib = require('./db');
 
 const persons = [
     {
@@ -59,17 +60,21 @@ const persons = [
     }
 ];
 
-async function getUsers() {
-    const data = [];
+async function createPeoples() {
+    const db = await dbLib.openConnection();
+    // Create the users table
+    await dbLib.createUserTable(db);
+
+    // Create the token table
+    await dbLib.createTokenTable(db);
+    
     for (let i = 0; i < persons.length; i++) {
         const hash = await bcrypt.hash(persons[i].password, 10);
-        data.push({
-            id: i + 1,
-            username: persons[i].name,
-            password: hash
-        });
+        await dbLib.insertOrUpdateUser(db, persons[i].name, hash);
     }
-    return data;
+    await dbLib.openConnection();
 }
 
-module.exports = getUsers;
+createPeoples()
+
+module.exports = createPeoples;

@@ -1,7 +1,8 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
 const router = express.Router();
-const getUsers = require('./people')
+const dbLib = require('./db');
+const poolLib = require('./pool_db');
 
 router.get('/', (req, res) => {
   res.render('login');
@@ -15,18 +16,14 @@ router.get('/game', (req, res) => {
   res.render('game');
 });
 
-
-
-
-
 // Restfuls API
 // Login route
 router.post('/login', async (req, res) => {
   const { username, password } = req.body;
-  const users = await getUsers()
-  const user = users.find(user => user.username === username);
+  const db = await poolLib.getConnection();
+  const user = await dbLib.getUserByUsername(db, username);
 
-  if (!user) {
+  if (!user || JSON.stringify(user) == '{}') {
     return res.status(404).send({code: 404, msg: 'User not found'});
   }
 
