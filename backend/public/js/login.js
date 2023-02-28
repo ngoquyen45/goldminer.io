@@ -19,7 +19,10 @@ loginForm.addEventListener('submit', async function(event) {
     const response = await postData('/login', body);
     console.log(JSON.stringify(response));
     if (response.code == 200) {
-      window.location.pathname = "/game";
+      // Save token to cookie
+      token = 'my-token-value';
+      document.cookie = `token=${token}; Secure; SameSite=Strict; HttpOnly`;
+      // window.location.pathname = "/game";
     }
     else {
       console.log("fail!");

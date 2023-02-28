@@ -3,7 +3,7 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const routers = require('./routers');
-const poolLib = require('./pool_db');
+const poolLib = require('./db/pool');
 
 // Set up middleware
 app.use(express.urlencoded({ extended: true }));
@@ -28,5 +28,4 @@ const server = app.listen(3000, () => {
 
 process.on('SIGINT', async () => {
   await poolLib.releaseConnection();
-  server.close();
 });

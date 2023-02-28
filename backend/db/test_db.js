@@ -1,5 +1,5 @@
-const dbLib = require('./db');
-const poolLib = require('./pool_db');
+const dbLib = require('./manager');
+const poolLib = require('./pool');
 
 async function test() {
     const db = await poolLib.getConnection();

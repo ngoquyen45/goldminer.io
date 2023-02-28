@@ -1,8 +1,8 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
 const router = express.Router();
-const dbLib = require('./db');
-const poolLib = require('./pool_db');
+const dbLib = require('./db/manager');
+const poolLib = require('./db/pool');
 
 router.get('/', (req, res) => {
   res.render('login');
