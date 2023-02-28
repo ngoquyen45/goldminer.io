@@ -30,7 +30,7 @@ class Point {
     }
     
     middle(p) {
-      return new Point((this.x + p.x) / 2, (this.y + p.y) / 2)
+      return new Point((this.x + p.x) / 2.0, (this.y + p.y) / 2.0)
     }
     
     inverse(p) {
@@ -38,14 +38,14 @@ class Point {
     }
     
     rotate(center, angle) { // quay nguoc kim dong ho
-      angle += Math.PI / 2
+      angle += Math.PI / 2.0
       // Step 1: Translate to origin
       let translatedX = this.x - center.x;
       let translatedY = this.y - center.y;
   
       // Step 2: Rotate
-      let cosA = cos(angle);
-      let sinA = sin(angle);
+      let cosA = Math.cos(angle);
+      let sinA = Math.sin(angle);
       let rotatedX = translatedX * cosA - translatedY * sinA;
       let rotatedY = translatedX * sinA + translatedY * cosA;
   

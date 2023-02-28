@@ -8,38 +8,38 @@ let level;
 let vector = {x: 0, y: 0}
 
 let centerPoint
-let diameter
 let R
+let diameter
 let players = []
 
 function preload() {
-  _background = loadImage('./assets/img/background.webp');
-  earth = loadImage('./assets/img/earth.png');
+  _background = loadImage('./img/background.webp');
+  earth = loadImage('./img/earth.png');
 
   avatars = [
-    loadImage('./assets/img/avatars/dai.png'),
-    loadImage('./assets/img/avatars/dat.png'),
-    loadImage('./assets/img/avatars/dong.png'),
-    loadImage('./assets/img/avatars/hanh.png'),
-    loadImage('./assets/img/avatars/loi.png'),
-    loadImage('./assets/img/avatars/nghia.png'),
-    loadImage('./assets/img/avatars/ngoc.png'),
-    loadImage('./assets/img/avatars/quyen.png'),
-    loadImage('./assets/img/avatars/son.png'),
-    loadImage('./assets/img/avatars/thang.png'),
-    loadImage('./assets/img/avatars/thanh.png'),
-    loadImage('./assets/img/avatars/tien.png'),
-    loadImage('./assets/img/avatars/tuan.png'),
-    loadImage('./assets/img/avatars/tung.png'),
+    loadImage('./img/avatars/dai.png'),
+    loadImage('./img/avatars/dat.png'),
+    loadImage('./img/avatars/dong.png'),
+    loadImage('./img/avatars/hanh.png'),
+    loadImage('./img/avatars/loi.png'),
+    loadImage('./img/avatars/nghia.png'),
+    loadImage('./img/avatars/ngoc.png'),
+    loadImage('./img/avatars/quyen.png'),
+    loadImage('./img/avatars/son.png'),
+    loadImage('./img/avatars/thang.png'),
+    loadImage('./img/avatars/thanh.png'),
+    loadImage('./img/avatars/tien.png'),
+    loadImage('./img/avatars/tuan.png'),
+    loadImage('./img/avatars/tung.png'),
   ]
 }
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
   createPlayers()
-  centerPoint = {x: width / 2, y: height / 2}
-  diameter = Math.min(width, height)
-  R = (diameter - delta * 2) / 2
+  centerPoint = {x: width / 2.0, y: height / 2.0}
+  diameter = (Math.min(windowWidth, windowHeight) - delta * 2.0)
+  R = diameter / 2.0
   stroke(255);
   gold.x = random(width);
   gold.y = random(height);
@@ -60,7 +60,7 @@ function draw() {
 
 function createPlayers() {
   for (let i = 0; i < avatars.length; i++) {
-    let alpha = i * (Math.PI * 2 / avatars.length)
+    let alpha = i * (Math.PI * 2.0 / avatars.length)
     players.push(new Player(alpha, avatars[i]))
   }
 }
@@ -80,9 +80,9 @@ function setImgBackground(_background) {
   } else {
     destWidth = destHeight * aspectRatio;
   }
-  let destX = (width - destWidth) / 2;
-  let destY = (height - destHeight) / 2;
-  let srcX = (_background.width - _background.height * aspectRatio) / 2;
+  let destX = (width - destWidth) / 2.0;
+  let destY = (height - destHeight) / 2.0;
+  let srcX = (_background.width - _background.height * aspectRatio) / 2.0;
   let srcY = 0;
   let srcWidth = _background.height * aspectRatio;
   let srcHeight = _background.height;
@@ -92,9 +92,8 @@ function setImgBackground(_background) {
 
 
 function drawCircle() {
-  let min = Math.min(width, height) - delta * 2;
-  imageMode(CORNER)
-  image(earth, width /2 - min/2, delta, min, min);
+  imageMode(CENTER)
+  image(earth, centerPoint.x, centerPoint.y, diameter, diameter);
 }
 
 function drawGold() {
@@ -179,29 +178,23 @@ class Player {
     D.lineTo(E);
   }
   
-  drawEarth() {
-    imageMode(CORNER)
-    image(earth, width /2 - min/2, delta, delta, delta);
-  }
 
   drawAvatar(pivot) {
-    let p = pivot.subtract(centerPoint).scale((delta / 2) / R).add(pivot)
-
+    let p = pivot.subtract(centerPoint).scale((delta / 2.0) / R).add(pivot)
     imageMode(CENTER);
     image(this.avatar, p.x, p.y, delta, delta);
   }
 
   join() {
     fill(0, 0, 0);
-    let pivot = new Point(width/2 - R * Math.sin(this.alpha), R - R * Math.cos(this.alpha) + + delta)
-    this.drawEarth();
+    let pivot = new Point(width/ 2.0 - R * Math.sin(this.alpha), height/ 2.0 - R * Math.cos(this.alpha))
     this.drawAvatar(pivot);
 
 
     if (!this.isChainAnchored) { // Nếu chưa thả leo
-      if (this.angle > Math.PI/2 + this.alpha)
+      if (this.angle > Math.PI/ 2.0 + this.alpha)
         this.sign *= -1
-      if (this.angle < -Math.PI/2 + this.alpha)
+      if (this.angle < -Math.PI/ 2.0 + this.alpha)
         this.sign *= -1
       this.angle = this.angle + this.sign * 0.008;
     }
