@@ -1,3 +1,30 @@
+const token = localStorage.getItem('token');
+var allowDraw = false
+async function verify() {
+  try {
+    const header = {
+      Authorization: `Bearer ${token}`
+    };
+    const response = await getData('http://localhost:3000/api/verify', header);
+    if (response.code == 200) {
+      allowDraw = true
+      console.log(allowDraw);
+    }
+    else {
+      window.location.pathname = "/login";
+      allowDraw = false
+    }
+  } catch (error) {
+  
+  }
+}
+
+(
+  async () => {
+    await verify()
+  }
+)();
+
 const minLength = 16;
 const maxLength = 600; // Length of the pendulum
 const delta = 30
@@ -12,7 +39,7 @@ let R
 let diameter
 let players = []
 
-function preload() {
+function preload() {  
   _background = loadImage('./img/background.webp');
   earth = loadImage('./img/earth.png');
 
@@ -48,6 +75,7 @@ function setup() {
 }
 
 function draw() {
+  if (!allowDraw) return
   setImgBackground(_background)
   drawCircle();
   joins()
