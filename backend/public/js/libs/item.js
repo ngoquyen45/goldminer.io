@@ -1,3 +1,4 @@
+// https://llv.edu.vn/vi/tong-hop-ten-cac-loai-da-quy-bang-tieng-anh/
 // Xây dựng một dự án để tự động sắp xếp các items
 class Type {
     constructor(name, cost, image) {
@@ -26,10 +27,13 @@ const Gemstone = {
     Malachite: Type("Malachite", 1.0, loadImage('./img/gemstones/malachite.png'))
 }
 
+/**
+ * Item in game map
+ */
 class Item {
     constructor(center, size, type) {
         this.center = center;
-        this.size = size; // trọng lượng của các item
+        this.size = size; // weight of items
         this.type = type;
     }
 
