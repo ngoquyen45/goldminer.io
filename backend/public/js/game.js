@@ -29,7 +29,7 @@ const maxLength = 600; // Length of the pendulum
 const delta = 30
 
 let gold = {x: 0, y: 0};
-let goldCollected = 0;
+let balance = 1000000;
 let level = 1;
 let vector = {x: 0, y: 0}
 
@@ -62,6 +62,7 @@ function preload() {
 
 function setup() {
   createCanvas(window.innerWidth, window.innerHeight);
+  frameRate(120);
   centerPoint = {x: width / 2.0, y: height / 2.0}
   diameter = (Math.min(window.innerWidth, window.innerHeight) - delta * 2.0)
   R = diameter / 2.0
@@ -79,7 +80,6 @@ function draw() {
   checkHooked();
   drawHUD();
   checkWin();
-  checkLose();
 }
 
 // Attach the event listener to the resize event
@@ -145,7 +145,7 @@ function checkHooked() {
     players[0].isChainHooked = true
     vector.x = gold.x - players[0].claw.x
     vector.y = gold.y - players[0].claw.y
-    goldCollected++;
+    balance++;
   }
 }
 
@@ -153,26 +153,17 @@ function drawHUD() {
   textSize(20);
   textAlign(LEFT);
   fill(255);
-  text(`Gold collected: ${goldCollected}`, 20, 30);
+  text(`Balance: ${balance}`, 20, 30);
   text(`Level: ${level}`, 20, 60);
 }
 
 function checkWin() {
-  if (goldCollected >= level * 5) {
+  if (balance >= level * 5) {
     level++;
-    goldCollected = 0;
+    balance = 0;
   }
 }
 
-function checkLose() {
-  // if (claw.y >= height) {
-  //   textSize(50);
-  //   textAlign(CENTER);
-  //   fill(255, 0, 0);
-  //   text("GAME OVER", width * 0.5, height * 0.5);
-  //   noLoop();
-  // }
-}
 
 function mousePressed() {
   players[0].isChainAnchored = true

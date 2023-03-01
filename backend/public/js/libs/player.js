@@ -65,7 +65,7 @@ class Player {
       if (this.isChainAnchored) {
         if (this.isChainHooked)
           this.sign2 = -1
-        this.length = this.length + this.sign2 * 3;
+        this.length = this.length + this.sign2;
         if (this.length >= maxLength) this.sign2 *= -1
         if (this.length <= minLength) {
           this.length = minLength
