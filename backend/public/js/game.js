@@ -76,7 +76,7 @@ function setup() {
 function draw() {
   if (!allowDraw) return
   setImgBackground(_background)
-  drawCircle();
+  drawEarth();
   joins()
   drawGold();
   checkHooked();
@@ -118,7 +118,7 @@ function setImgBackground(_background) {
 }
 
 
-function drawCircle() {
+function drawEarth() {
   imageMode(CENTER)
   image(earth, centerPoint.x, centerPoint.y, diameter, diameter);
 }
