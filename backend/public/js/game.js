@@ -29,8 +29,8 @@ const maxLength = 600; // Length of the pendulum
 const delta = 30
 
 let gold = {x: 0, y: 0};
-let goldCollected;
-let level;
+let goldCollected = 0;
+let level = 1;
 let vector = {x: 0, y: 0}
 
 let centerPoint
@@ -41,7 +41,6 @@ let players = []
 function preload() {  
   _background = loadImage('./img/background.webp');
   earth = loadImage('./img/earth.png');
-
   avatars = [
     loadImage('./img/avatars/dai.png'),
     loadImage('./img/avatars/dat.png'),
@@ -58,19 +57,17 @@ function preload() {
     loadImage('./img/avatars/tuan.png'),
     loadImage('./img/avatars/tung.png'),
   ]
+  createPlayers()
 }
 
 function setup() {
-  createCanvas(windowWidth, windowHeight);
-  createPlayers()
+  createCanvas(window.innerWidth, window.innerHeight);
   centerPoint = {x: width / 2.0, y: height / 2.0}
-  diameter = (Math.min(windowWidth, windowHeight) - delta * 2.0)
+  diameter = (Math.min(window.innerWidth, window.innerHeight) - delta * 2.0)
   R = diameter / 2.0
   stroke(255);
-  gold.x = random(width);
-  gold.y = random(height);
-  goldCollected = 0;
-  level = 1;
+  gold.x = random(window.innerWidth);
+  gold.y = random(window.innerHeight);
 }
 
 function draw() {
@@ -84,6 +81,16 @@ function draw() {
   checkWin();
   checkLose();
 }
+
+// Attach the event listener to the resize event
+window.addEventListener('resize', () => {
+  setup();
+});
+
+document.addEventListener('fullscreenchange', function(event) {
+  setup();
+});
+
 
 function createPlayers() {
   for (let i = 0; i < avatars.length; i++) {

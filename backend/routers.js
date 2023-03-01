@@ -5,7 +5,7 @@ const dbLib = require('./db/manager');
 const poolLib = require('./db/pool');
 
 router.get('/', (req, res) => {
-  res.render('login');
+  res.redirect('/login');
 });
 
 router.get('/login', (req, res) => {
